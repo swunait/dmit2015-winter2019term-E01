@@ -1,1 +1,7 @@
-hello there, what are you doing after class
+Home Work Assignment
+---------------------
+1. Create a servlet (QRCodeGeneratorServlet) to generate a QR code image for a given URL. 
+Using the response object write the QR code image to the response.
+2. Create a new HTML page (generateQrCode.html) where the user can enter a URL in a text field
+and a button to submit the URL to the QR code image servlet.
+
