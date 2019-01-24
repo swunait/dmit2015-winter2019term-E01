@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class CurrentDateAndTime
@@ -22,6 +23,13 @@ public class CurrentDateAndTime extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String testAttr = (String) session.getAttribute("testAttr");
+		if (testAttr == null) {
+			session.setAttribute("testAttr", "Session attriute demo");
+		}
+		session.setAttribute("username", "Shampoo Voo");
+		
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		try {
