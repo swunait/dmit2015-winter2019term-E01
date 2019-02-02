@@ -26,6 +26,22 @@
 			<h1>Mortgage Calculator Results</h1>
 		</div>
 		
+		<c:if test="${errors != null}">
+			<div class="alert alert-danger" role="alert">
+				<p>The following errors has occurred: </p>
+				<table>
+					<tr><th>Field</th><th>Error Message</th></tr>
+					<c:forEach items="${errors}" var="entry">
+						<tr>
+							<td>${entry.key}</td>
+							<td>${entry.value}</td>
+						</tr>
+					</c:forEach>
+				</table>
+			
+			</div>
+		</c:if>
+		
 		<c:if test="${currentLoan != null}">
 			<div class="alert alert-info" role="alert">
 				The monthly payment amount is
