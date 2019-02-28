@@ -52,7 +52,6 @@
 			</b:form>
 			
 			<br />
-			
 			<b:dataTable id="table" 
 				value="#{loanController.currentLoan.loanScheduleArray}" 
 				var="schedule">
@@ -68,9 +67,11 @@
 					value="#{of:formatCurrency(schedule.principalPaid,'$')}" />
 				<b:dataTableColumn label="Remaining Balance" 
 					styleClass="text-right"
-					value="#{of:formatCurrency(schedule.remainingBalance,'$')}"/>
-				
-			</b:dataTable>
+					value="#{of:formatCurrency(schedule.remainingBalance,'$')}"/>				
+			</b:dataTable>			
+<f:verbatim>
+</f:verbatim>			
+
 		</b:container>
 
 

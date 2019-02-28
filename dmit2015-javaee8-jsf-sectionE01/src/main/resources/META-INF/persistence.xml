@@ -13,4 +13,11 @@
 		</properties>
 	</persistence-unit>
 	
+	<persistence-unit name="NorthwindPU">
+		<jta-data-source>java:jboss/datasources/MysqlNorthwindDS</jta-data-source>
+		<properties>
+			<property name="hibernate.show_sql" value="true" />
+		</properties>
+	</persistence-unit>
+	
 </persistence>
