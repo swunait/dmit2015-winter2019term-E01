@@ -19,36 +19,29 @@
     	<meta charset="utf-8" />
     	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />    
         
-        <title>Northwind - Shippers</title>        
+        <title>Shipper - New</title>        
     </h:head>
 
 	<h:body>
 		<b:container>
-			<b:jumbotron><h1>List of Shippers</h1></b:jumbotron>
+			<h1>New Shipper</h1>
 			
 			<b:messages id="messages" />
 			
 			<b:form>
-				<b:dataTable id="datatable"
-					value="#{shipperCRUDController.shippers}"
-					var="item">
+				<b:inputText id="companyName"
+					label="Company Name" 
+					value="#{shipperCRUDController.currentShipper.companyName}"/>
 					
-					<b:dataTableColumn label="Shipper ID" value="#{item.shipperID}" />
+				<b:inputText id="phone"
+					label="Phone" 
+					value="#{shipperCRUDController.currentShipper.phone}"/>	
 					
-					<b:dataTableColumn label="Company Name" value="#{item.companyName}" />
-					
-					<b:dataTableColumn label="Phone ID" value="#{item.phone}" />		
-					
-					<b:dataTableColumn label="Action">
-						<b:commandButton iconAwesome="trash"
-							immediate="true"
-							update="messages datatable"
-							onclick="return confirm('Are you sure you want to delete #{item.companyName}?')"
-							action="#{shipperCRUDController.delete(item)}" />
-					
-					</b:dataTableColumn>			
-					
-				</b:dataTable>
+				<b:commandButton value="Submit NEW"
+					look="primary"
+					iconAwesome="save" 
+					update="messages @form"
+					action="#{shipperCRUDController.create()}"/>
 			</b:form>
 		</b:container>
 

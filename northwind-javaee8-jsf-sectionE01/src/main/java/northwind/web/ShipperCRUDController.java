@@ -7,7 +7,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.jms.Message;
 
 import org.omnifaces.util.Messages;
 
@@ -39,18 +38,29 @@ public class ShipperCRUDController implements Serializable {
 		}
 	}
 
-	public String create( ) {
+	public String create() {
 		String outcome = null;
 		try {
 			northwindService.createNewShipper(currentShipper);
+			
 			currentShipper = new Shipper();
 			Messages.addFlashGlobalInfo("Create was successful");
-			outcome = "list";
+			outcome = "list?faces-redirect=true";
 		} catch(Exception e) {
 			Messages.addGlobalError("Create was not successful");
 			Messages.addGlobalError("Exception: ", e.getMessage());
 		}
 		return outcome;
+	}
+	
+	public void delete(Shipper existingShipper) {
+		try {
+			northwindService.removeShipper(existingShipper);
+			shippers.remove(existingShipper);
+			Messages.addGlobalInfo("Delete was successful");
+		} catch(Exception e) {
+			Messages.addGlobalError("Delete was not succesful");
+		}
 	}
 	
 	public List<Shipper> getShippers() {
