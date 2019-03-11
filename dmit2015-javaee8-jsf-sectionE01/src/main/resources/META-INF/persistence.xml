@@ -13,14 +13,14 @@
 	</persistence-unit>
 	
 	<persistence-unit name="NorthwindPU">
-		<jta-data-source>java:jboss/datasources/MysqlNorthwindDS</jta-data-source>
+		<jta-data-source>java:app/datasources/dmit2015-javaee8-jsf-sectionE01/NorthwindDS</jta-data-source>
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
 		</properties>
 	</persistence-unit>
 	
 	<persistence-unit name="ChinookPU">
-		<jta-data-source>java:jboss/datasources/ChinookDS</jta-data-source>
+		<jta-data-source>java:app/datasources/dmit2015-javaee8-jsf-sectionE01/ChinookDS</jta-data-source>
 		<class>chinook.entity.Album</class>
         <class>chinook.entity.Artist</class>
         <class>chinook.entity.Customer</class>

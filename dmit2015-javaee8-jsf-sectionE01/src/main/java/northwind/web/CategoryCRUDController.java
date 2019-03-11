@@ -35,7 +35,7 @@ public class CategoryCRUDController implements Serializable{
 		newCategory = new Category();
 	}
 	
-	public void createNewCategory() {
+	public void create() {
 		try {
 			northwindService.createCategory(newCategory);
 			init();
@@ -50,6 +50,16 @@ public class CategoryCRUDController implements Serializable{
 	@Named
 	public List<Category> getCategorys() {
 		return categorys;
+	}
+	
+	public void delete(Category existingCategory) {
+		try {
+			northwindService.deleteCategory(existingCategory);
+			categorys.remove(existingCategory);
+			Messages.addGlobalInfo("Delete was successful");				
+		} catch(Exception e) {
+			Messages.addGlobalError("Delete was not succesful");
+		}
 	}
 	
 }

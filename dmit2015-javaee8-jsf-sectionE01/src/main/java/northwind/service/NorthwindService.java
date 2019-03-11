@@ -23,6 +23,9 @@ public class NorthwindService {
 	}
 	
 	public void deleteCategory(Category existingCategory) {
+		if (!entityManager.contains(existingCategory)) {
+			existingCategory = entityManager.merge(existingCategory);
+		}
 		entityManager.remove(existingCategory);
 	}
 	

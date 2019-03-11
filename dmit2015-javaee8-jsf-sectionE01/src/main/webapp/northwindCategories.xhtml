@@ -27,8 +27,13 @@
 			<h1>Northwind Categories</h1>
 		</b:jumbotron>
 		
-<f:verbatim>
-		<b:dataTable value="#{categoryCRUDController.categorys}" var="currentCategory">
+		<b:messages id="messages" />
+		
+		<b:form>
+
+<f:verbatim>	
+
+		<b:dataTable id="datatable1" value="#{categoryCRUDController.categorys}" var="currentCategory">
 			<b:dataTableColumn label="CategoryID" value="#{currentCategory.categoryID}" />
 			
 			<b:dataTableColumn label="Name" value="#{currentCategory.categoryName}" />
@@ -40,23 +45,45 @@
 					dataURI="true"
 					rendered="#{currentCategory.picture != null}" />
 			</b:dataTableColumn>			
+			
+			<b:dataTableColumn label="Action">
+				<b:commandButton value="delete"
+					iconAwesome="trash"
+					immediate="true"
+					update="messages datatable1"
+					onclick="return confirm('Are you sure you want to delete #{currentCategory.categoryID}?')"
+					action="#{categoryCRUDController.delete(currentCategory)}" />
+			
+			</b:dataTableColumn>	
 		</b:dataTable>
 </f:verbatim>		
+	
 		
-		<b:dataTable value="#{categorys}" var="currentCategory">
-			<b:dataTableColumn label="CategoryID" value="#{currentCategory.categoryID}" />
+			<b:dataTable id="datatable2" value="#{categorys}" var="currentCategory">
+				<b:dataTableColumn label="CategoryID" value="#{currentCategory.categoryID}" />
+				
+				<b:dataTableColumn label="Name" value="#{currentCategory.categoryName}" />
+				
+				<b:dataTableColumn label="Description" value="#{currentCategory.description}" />
+				
+				<b:dataTableColumn label="Picture">
+					<o:graphicImage value="#{currentCategory.picture}"
+						dataURI="true"
+						rendered="#{currentCategory.picture != null}" />
+				</b:dataTableColumn>
+				
+				<b:dataTableColumn label="Action">
+					<b:commandButton value="delete"
+						iconAwesome="trash"
+						immediate="true"
+						update="messages datatable2"
+						onclick="return confirm('Are you sure you want to delete #{currentCategory.categoryID}?')"
+						action="#{categoryCRUDController.delete(currentCategory)}" />
+				
+				</b:dataTableColumn>	
+			</b:dataTable>
 			
-			<b:dataTableColumn label="Name" value="#{currentCategory.categoryName}" />
-			
-			<b:dataTableColumn label="Description" value="#{currentCategory.description}" />
-			
-			<b:dataTableColumn label="Picture">
-				<o:graphicImage value="#{currentCategory.picture}"
-					dataURI="true"
-					rendered="#{currentCategory.picture != null}" />
-			</b:dataTableColumn>
-		</b:dataTable>
-
+		</b:form>
 
 	</h:body>
 
