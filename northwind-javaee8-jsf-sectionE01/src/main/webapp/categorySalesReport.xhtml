@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:p="http://primefaces.org/ui"  
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:hf="http://highfaces.org"
+>
+    <h:head>
+    	<!-- Required meta tags -->
+    	<meta charset="utf-8" />
+    	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />    
+        
+        <title>Category Sales</title>        
+    </h:head>
+
+	<h:body>
+		<h1>Category Sales Revenue</h1>
+		
+		<b:messages id="messages" />
+		
+		<b:form>
+			<b:tabView>
+				<b:tab title="Pie Chart">
+					<hf:chart type="pie" title="Category Sales Revenue">
+						<hf:chartSerie name="Sales Total" 
+							value="#{categorySalesRevenueReportController.categorySalesRevenue}"
+							var="point"
+							point="#{point.categorySalesTotal}"
+							tickLabel="#{point.categoryName}" />			
+					</hf:chart>				
+				</b:tab>
+				<b:tab title="Bar Chart">
+					<hf:chart type="bar" title="Category Sales Revenue">
+						<hf:chartSerie name="Sales Total" 
+							value="#{categorySalesRevenueReportController.categorySalesRevenue}"
+							var="point"
+							point="#{point.categorySalesTotal}"
+							tickLabel="#{point.categoryName}" />			
+					</hf:chart>							
+				</b:tab>
+				<b:tab title="Column Chart">
+					<hf:chart type="column" title="Category Sales Revenue">
+						<hf:chartSerie name="Sales Total" 
+							value="#{categorySalesRevenueReportController.categorySalesRevenue}"
+							var="point"					
+							point="#{point.categorySalesTotal}"
+							tickLabel="#{point.categoryName}" />			
+					</hf:chart>				
+				</b:tab>				
+			</b:tabView>
+		
+			<p:dataTable id="datatable" 
+				value="#{categorySalesRevenueReportController.categorySalesRevenue}"
+				var="item">
+				
+				<p:column headerText="Category Name">
+					<h:outputText value="#{item.categoryName}"/>
+				</p:column>
+			
+				<p:column headerText="Sales Total">
+					<h:outputText value="#{item.categorySalesTotal}">
+						<f:convertNumber type="currency"/>
+					</h:outputText>
+				
+				</p:column>
+			</p:dataTable>
+			
+			<table class="table table-bordered table-striped">
+				<thead><th>Category name</th><th>Sales Total</th></thead>
+				<tbody>
+					<ui:repeat var="item" value="#{categorySalesRevenueReportController.categorySalesRevenue}">
+						<tr>
+							<td>#{item.categoryName}</td>
+							<td>
+								<h:outputText value="#{item.categorySalesTotal}">
+									<f:convertNumber type="currency"/>
+								</h:outputText>							
+							</td>
+						</tr>					
+					</ui:repeat>
+				</tbody>				
+			</table>
+		</b:form>
+
+
+	</h:body>
+
+</html>
