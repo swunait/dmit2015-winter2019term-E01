@@ -20,6 +20,32 @@ public class NorthwindService {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
+	// Return a list of all years with orders (orderDate) sorted descending by the year
+	public List<Integer> findYearsWithOrders() {
+		return entityManager.createQuery(
+			"SELECT YEAR(o.orderDate) AS OrderYear "
+				+ " FROM Order o "
+				+ " GROUP BY YEAR(o.orderDate) "
+				+ " ORDER BY OrderYear DESC",
+			Integer.class)
+			.getResultList();
+	}
+	
+	public List<CategorySalesRevenue> findCategorySalesRevenuesByYear(Integer salesYear) {
+		return entityManager.createQuery(
+			"SELECT new northwind.report.CategorySalesRevenue( "
+				+ "c.categoryName, "
+				+ "SUM(od.unitPrice * od.quantity * (1 - od.discount)) AS SalesTotal "
+			+ ")"
+			+ " FROM Order o, IN (o.orderDetails) od, IN (od.product) p, IN (p.category) c "
+			+ " WHERE o.shippedDate IS NOT NULL AND YEAR(o.shippedDate) = :yearValue"
+			+ " GROUP BY c.categoryName "
+			+ " ORDER BY SalesTotal DESC ", 			 
+			CategorySalesRevenue.class)
+			.setParameter("yearValue", salesYear)
+			.getResultList();
+	}
+	
 	public List<CategorySalesRevenue> findCategorySalesRevenues() {
 		return entityManager.createQuery(
 			"SELECT new northwind.report.CategorySalesRevenue( "
@@ -32,6 +58,7 @@ public class NorthwindService {
 			CategorySalesRevenue.class)
 			.getResultList();
 	}
+	
 	
 	public List<Shipper> findAllShipper() {
 		return entityManager.createQuery(

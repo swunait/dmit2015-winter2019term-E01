@@ -26,8 +26,20 @@
 		<h1>Category Sales Revenue</h1>
 		
 		<b:messages id="messages" />
-		
+<b:container>
 		<b:form>
+<b:selectOneMenu id="year" 
+	value="#{categorySalesRevenueReportController.selectedSalesYear}"
+	onclick="ajax:categorySalesRevenueReportController.generateReport()"
+	update="outputPanel">
+	<f:selectItem itemLabel="All Years" itemValue=""/>
+	<f:selectItems 
+		value="#{categorySalesRevenueReportController.salesYears}" 
+		var="year"
+		itemLabel="#{year}" 
+		itemValue="#{year}"/>
+</b:selectOneMenu>
+<p:outputPanel id="outputPanel">	
 			<b:tabView>
 				<b:tab title="Pie Chart">
 					<hf:chart type="pie" title="Category Sales Revenue">
@@ -35,7 +47,7 @@
 							value="#{categorySalesRevenueReportController.categorySalesRevenue}"
 							var="point"
 							point="#{point.categorySalesTotal}"
-							tickLabel="#{point.categoryName}" />			
+							tickLabel="#{point.categoryName} (#{point.categorySalesTotal})" />			
 					</hf:chart>				
 				</b:tab>
 				<b:tab title="Bar Chart">
@@ -56,40 +68,51 @@
 							tickLabel="#{point.categoryName}" />			
 					</hf:chart>				
 				</b:tab>				
+				<b:tab title="PrimeFaces DataTable">
+					<p:dataTable id="datatable" 
+						value="#{categorySalesRevenueReportController.categorySalesRevenue}"
+						var="item">
+						
+						<p:column headerText="Category Name">
+							<h:outputText value="#{item.categoryName}"/>
+						</p:column>
+					
+						<p:column headerText="Sales Total">
+							<h:outputText value="#{item.categorySalesTotal}">
+								<f:convertNumber type="currency"/>
+							</h:outputText>
+						
+						</p:column>
+					</p:dataTable>
+				</b:tab>
+				
+				<b:tab title="JSF Repeater">
+					<table class="table table-bordered table-striped">
+						<thead><th>Category name</th><th>Sales Total</th></thead>
+						<tbody>
+							<ui:repeat var="item" value="#{categorySalesRevenueReportController.categorySalesRevenue}">
+								<tr>
+									<td>#{item.categoryName}</td>
+									<td>
+										<h:outputText value="#{item.categorySalesTotal}">
+											<f:convertNumber type="currency"/>
+										</h:outputText>							
+									</td>
+								</tr>					
+							</ui:repeat>
+						</tbody>				
+					</table>				
+				</b:tab>
+				
 			</b:tabView>
 		
-			<p:dataTable id="datatable" 
-				value="#{categorySalesRevenueReportController.categorySalesRevenue}"
-				var="item">
-				
-				<p:column headerText="Category Name">
-					<h:outputText value="#{item.categoryName}"/>
-				</p:column>
 			
-				<p:column headerText="Sales Total">
-					<h:outputText value="#{item.categorySalesTotal}">
-						<f:convertNumber type="currency"/>
-					</h:outputText>
-				
-				</p:column>
-			</p:dataTable>
 			
-			<table class="table table-bordered table-striped">
-				<thead><th>Category name</th><th>Sales Total</th></thead>
-				<tbody>
-					<ui:repeat var="item" value="#{categorySalesRevenueReportController.categorySalesRevenue}">
-						<tr>
-							<td>#{item.categoryName}</td>
-							<td>
-								<h:outputText value="#{item.categorySalesTotal}">
-									<f:convertNumber type="currency"/>
-								</h:outputText>							
-							</td>
-						</tr>					
-					</ui:repeat>
-				</tbody>				
-			</table>
+			
+</p:outputPanel>
+		
 		</b:form>
+</b:container>		
 
 
 	</h:body>
