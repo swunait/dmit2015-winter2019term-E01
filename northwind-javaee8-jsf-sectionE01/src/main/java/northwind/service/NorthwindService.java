@@ -5,10 +5,13 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import northwind.entity.Category;
+import northwind.entity.Order;
 import northwind.entity.Shipper;
 import northwind.report.CategorySalesRevenue;
 
@@ -19,6 +22,22 @@ public class NorthwindService {
 
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	public Order findOrderWithDetails(int orderID) {
+		Order singleResult = null;
+		try {
+			singleResult = entityManager.createQuery(
+				"FROM Order o JOIN FETCH o.orderDetails "
+				+ " WHERE o.orderID = :idValue"
+				, Order.class)
+				.setParameter("idValue", orderID)
+				.getSingleResult();
+		} catch(NonUniqueResultException | NoResultException e) {
+			e.printStackTrace();			
+		}
+		
+		return singleResult;
+	}
 	
 	// Return a list of all years with orders (orderDate) sorted descending by the year
 	public List<Integer> findYearsWithOrders() {
