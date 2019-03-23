@@ -12,6 +12,7 @@ import org.omnifaces.util.Messages;
 import lombok.Getter;
 import lombok.Setter;
 import northwind.entity.Order;
+import northwind.entity.OrderDetail;
 import northwind.service.NorthwindService;
 
 @Named
@@ -50,6 +51,11 @@ public class OrderQuerySingleResultController implements Serializable {
 	public double invoiceTotal() {
 		double total = 0;
 		if (querySingleResult != null) {
+//			for(OrderDetail od : querySingleResult.getOrderDetails()) {
+//				total += od.getQuantity() * od.getUnitPrice().doubleValue() * (1 - od.getDiscount());
+//				total += querySingleResult.getFreight().doubleValue();
+//			}
+			
 			total = querySingleResult.getOrderDetails().stream().mapToDouble( 
 						od -> od.getQuantity() * od.getUnitPrice().doubleValue() * (1 - od.getDiscount()) 
 					).sum()
