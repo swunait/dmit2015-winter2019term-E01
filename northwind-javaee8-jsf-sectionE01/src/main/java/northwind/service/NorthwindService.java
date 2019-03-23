@@ -3,129 +3,102 @@ package northwind.service;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
+import javax.inject.Inject;
+//import javax.enterprise.context.ApplicationScoped;
+//import javax.transaction.Transactional;
 
 import northwind.entity.Category;
+import northwind.entity.Employee;
 import northwind.entity.Order;
 import northwind.entity.Shipper;
 import northwind.report.CategorySalesRevenue;
+import northwind.repository.CategoryRepository;
+import northwind.repository.CustomerRepository;
+import northwind.repository.EmployeeRepository;
+import northwind.repository.OrderRepository;
+import northwind.repository.ProductRepository;
+import northwind.repository.ShipperRepository;
 
+@Stateless	
 //@ApplicationScoped
 //@Transactional
-@Stateless
 public class NorthwindService {
+	
+	@Inject
+	private OrderRepository orderRepository;
 
-	@PersistenceContext
-	private EntityManager entityManager;
+	@Inject
+	private CategoryRepository categoryRepository;
+
+	@Inject
+	private ProductRepository productRepository;
+
+	@Inject
+	private CustomerRepository customerRepository;
+
+	@Inject
+	private EmployeeRepository employeeRepository;
+
+	@Inject
+	private ShipperRepository shipperRepository;
 	
-	public Order findOrderWithDetails(int orderID) {
-		Order singleResult = null;
-		try {
-			singleResult = entityManager.createQuery(
-				"FROM Order o JOIN FETCH o.orderDetails "
-				+ " WHERE o.orderID = :idValue"
-				, Order.class)
-				.setParameter("idValue", orderID)
-				.getSingleResult();
-		} catch(NonUniqueResultException | NoResultException e) {
-			e.printStackTrace();			
-		}
-		
-		return singleResult;
+	public List<Employee> findAllEmployee() {
+		return employeeRepository.findAll();
 	}
 	
-	// Return a list of all years with orders (orderDate) sorted descending by the year
-	public List<Integer> findYearsWithOrders() {
-		return entityManager.createQuery(
-			"SELECT YEAR(o.orderDate) AS OrderYear "
-				+ " FROM Order o "
-				+ " GROUP BY YEAR(o.orderDate) "
-				+ " ORDER BY OrderYear DESC",
-			Integer.class)
-			.getResultList();
-	}
-	
-	public List<CategorySalesRevenue> findCategorySalesRevenuesByYear(Integer salesYear) {
-		return entityManager.createQuery(
-			"SELECT new northwind.report.CategorySalesRevenue( "
-				+ "c.categoryName, "
-				+ "SUM(od.unitPrice * od.quantity * (1 - od.discount)) AS SalesTotal "
-			+ ")"
-			+ " FROM Order o, IN (o.orderDetails) od, IN (od.product) p, IN (p.category) c "
-			+ " WHERE o.shippedDate IS NOT NULL AND YEAR(o.shippedDate) = :yearValue"
-			+ " GROUP BY c.categoryName "
-			+ " ORDER BY SalesTotal DESC ", 			 
-			CategorySalesRevenue.class)
-			.setParameter("yearValue", salesYear)
-			.getResultList();
+	public Order findOneOrder(int orderID) {
+		return orderRepository.findOneOrder(orderID);
 	}
 	
 	public List<CategorySalesRevenue> findCategorySalesRevenues() {
-		return entityManager.createQuery(
-			"SELECT new northwind.report.CategorySalesRevenue( "
-				+ "c.categoryName, "
-				+ "SUM(od.unitPrice * od.quantity * (1 - od.discount)) AS SalesTotal "
-			+ ")"
-			+ " FROM Order o, IN (o.orderDetails) od, IN (od.product) p, IN (p.category) c "
-			+ " GROUP BY c.categoryName "
-			+ " ORDER BY SalesTotal DESC ", 			 
-			CategorySalesRevenue.class)
-			.getResultList();
+		return orderRepository.findCategorySalesRevenues();
 	}
 	
-	
-	public List<Shipper> findAllShipper() {
-		return entityManager.createQuery(
-			"FROM Shipper s ORDER BY s.companyName", Shipper.class)
-			.getResultList();
+	public List<CategorySalesRevenue> findCategorySalesRevenuesByYear(Integer salesYear) {
+		return orderRepository.findCategorySalesRevenuesByYear(salesYear);
 	}
 	
-	public void createNewShipper(Shipper newShipper) {
-//		int nextShipperID = (int) entityManager.createQuery(
-//			"SELECT MAX(s.shipperID) + 1 FROM Shipper s"
-//			).getSingleResult(); 
-//		newShipper.setShipperID(nextShipperID);
-		entityManager.persist(newShipper);
+	public List<Integer> findYearsWithOrders() {
+		return orderRepository.findYearsWithOrders();
 	}
 	
-	public void updateShipper(Shipper existingShipper) {
-		entityManager.merge(existingShipper);
+	public void createCategory(Category newCategory) {
+		categoryRepository.create(newCategory);
+	}
+
+	public void updateCategory(Category existingCategory) {
+		categoryRepository.edit(existingCategory);
 	}
 	
-	
-	public void removeShipper(Shipper existingShipper) {
-		if (!entityManager.contains(existingShipper) ) {
-			existingShipper = entityManager.merge(existingShipper);
-		}
-		entityManager.remove(existingShipper);
+	public void deleteCategory(Category existingCategory) {
+		categoryRepository.remove(existingCategory);
 	}
 	
+	public Category findOneCategory(int categoryID) {
+		return categoryRepository.find(categoryID);
+	}
 	
 	public List<Category> findAllCategory() {
-		return entityManager.createQuery(
-			"FROM Category c ORDER BY c.categoryName", Category.class)
-			.getResultList();
+		return categoryRepository.findAllOrderByCategoryName();
 	}
 	
-	public void createNewCategory(Category newCategory) {
-		entityManager.persist(newCategory);
+	public void createShipper(Shipper newShipper) {
+		shipperRepository.create(newShipper);
+	}
+
+	public void updateShipper(Shipper existingShipper) {
+		shipperRepository.edit(existingShipper);
 	}
 	
-	public void updateCategory(Category existingCategory) {
-		entityManager.merge(existingCategory);
+	public void deleteShipper(Shipper existingShipper) {
+		shipperRepository.remove(existingShipper);
 	}
 	
-	
-	public void removeCategory(Category existingCategory) {
-		if (!entityManager.contains(existingCategory) ) {
-			existingCategory = entityManager.merge(existingCategory);
-		}
-		entityManager.remove(existingCategory);
+	public Shipper findOneShipper(int shipperID) {
+		return shipperRepository.find(shipperID);
 	}
 	
+	public List<Shipper> findAllShipper() {
+		return shipperRepository.findAllOrderByCompanyName();
+	}
 }

@@ -17,33 +17,44 @@ import northwind.service.NorthwindService;
 @Named
 @ViewScoped
 public class OrderQuerySingleResultController implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@NotNull(message="Search value is required")
-	@Getter @Setter 
-	private Integer queryIdValue;
+	private static final long serialVersionUID = 1L;
 	
-	@Getter @Setter private Order querySingleResult;
+	@NotNull(message="A OrderID value is required")
+	@Getter @Setter private Integer queryIdValue;	// +getter +setter
 	
+	@Getter @Setter private Order querySingleResult;		// +getter +setter
+
 	@Inject
 	private NorthwindService northwindService;
 	
-	public void doSearch( ) {
+	public void doSearch() {
 		try {
-			querySingleResult = northwindService.findOrderWithDetails(queryIdValue);
-			if (querySingleResult != null) {
-				Messages.addGlobalInfo("Found 1 record.");
+			querySingleResult = northwindService.findOneOrder(queryIdValue);
+			if(querySingleResult != null) {
+				Messages.addGlobalInfo("Found 1 record");
 			} else {
-				Messages.addGlobalInfo("No result found for {0}.", queryIdValue);
+				Messages.addGlobalInfo("No record with {0} value", queryIdValue);
 			}
-		} catch(Exception e) {
-			Messages.addGlobalError("Error searching for record.");
+		} catch (Exception e) {
+			Messages.addGlobalError("Error searching for order");
 			e.printStackTrace();
-		}
+		}		
 	}
 	
 	public void doCancel() {
 		queryIdValue = null;
 		querySingleResult = null;
+	}
+	
+	public double invoiceTotal() {
+		double total = 0;
+		if (querySingleResult != null) {
+			total = querySingleResult.getOrderDetails().stream().mapToDouble( 
+						od -> od.getQuantity() * od.getUnitPrice().doubleValue() * (1 - od.getDiscount()) 
+					).sum()
+					+ querySingleResult.getFreight().doubleValue();	
+		}
+		return total;
 	}
 }

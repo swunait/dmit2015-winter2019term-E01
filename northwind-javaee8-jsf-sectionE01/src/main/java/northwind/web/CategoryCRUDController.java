@@ -5,33 +5,39 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Produces;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
+import org.primefaces.model.UploadedFile;
 
+import jnr.ffi.Struct.u_int16_t;
 import lombok.Getter;
 import lombok.Setter;
-import northwind.entity.Shipper;
+import northwind.entity.Category;
 import northwind.service.NorthwindService;
 
 @Named
 @ViewScoped
-public class ShipperCRUDController implements Serializable {
+public class CategoryCRUDController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private static Logger log = Logger.getLogger(ShipperCRUDController.class.getName());
+	private static Logger log = Logger.getLogger(CategoryCRUDController.class.getName());
 	
 	@Inject
 	private NorthwindService northwindService;
 	
-	private List<Shipper> shippers;					// +getter
+	private List<Category> categorys;					// +getter
 	
-	/** The current Shipper to create, edit, update, or delete */
+	/** The current Category to create, edit, update, or delete */
 	@Getter @Setter 
-	private  Shipper shipperDetail = new Shipper();	// +getter +setter	
+	private  Category categoryDetail = new Category();	// +getter +setter	
+	
+	@Getter @Setter
+	private UploadedFile uploadedFile;
 	
 	@Getter @Setter 
 	private boolean editMode = false;
@@ -42,9 +48,9 @@ public class ShipperCRUDController implements Serializable {
 	@PostConstruct
 	void init() {
 		try {
-			shippers = northwindService.findAllShipper();
+			categorys = northwindService.findAllCategory();
 		} catch(Exception e) {
-			Messages.addGlobalError("Error retreiving shippers");
+			Messages.addGlobalError("Error retreiving categorys");
 			log.fine(e.getMessage());
 		}
 	}
@@ -52,8 +58,12 @@ public class ShipperCRUDController implements Serializable {
 	public String create() {
 		String outcome = null;
 		try {
-			northwindService.createShipper(shipperDetail);
-			shipperDetail = new Shipper();
+			if(uploadedFile != null) {
+				categoryDetail.setPicture(uploadedFile.getContents());
+			}
+			
+			northwindService.createCategory(categoryDetail);
+			categoryDetail = new Category();
 			Messages.addFlashGlobalInfo("Create was succesful");
 			outcome = "list?faces-redirect=true";
 		} catch(Exception e) {
@@ -67,8 +77,12 @@ public class ShipperCRUDController implements Serializable {
 	public String update() {
 		String outcome = null;
 		try {
-			northwindService.updateShipper(shipperDetail);
-			shipperDetail = new Shipper();
+			if(uploadedFile != null) {
+				categoryDetail.setPicture(uploadedFile.getContents());
+			}
+			
+			northwindService.updateCategory(categoryDetail);
+			categoryDetail = new Category();
 			editMode = false;
 			editId = null;
 			Messages.addFlashGlobalInfo("Update was succesful");
@@ -81,10 +95,10 @@ public class ShipperCRUDController implements Serializable {
 		return outcome;
 	}
 	
-	public void delete(Shipper existingShipper) {
+	public void delete(Category existingCategory) {
 		try {
-			northwindService.deleteShipper(existingShipper);
-			shippers.remove(existingShipper);
+			northwindService.deleteCategory(existingCategory);
+			categorys.remove(existingCategory);
 			Messages.addGlobalInfo("Delete was successful");
 		} catch (Exception e) {
 			Messages.addGlobalError("Delete was not successful");
@@ -95,9 +109,9 @@ public class ShipperCRUDController implements Serializable {
 	public String delete() {
 		String nextUrl = null;
 		try {
-			northwindService.deleteShipper(shipperDetail);
-			shippers.remove(shipperDetail);
-			shipperDetail = null;
+			northwindService.deleteCategory(categoryDetail);
+			categorys.remove(categoryDetail);
+			categoryDetail = null;
 			editId = null;
 			Messages.addFlashGlobalInfo("Delete was successful");			
 			nextUrl = "list?faces-redirect=true";
@@ -113,8 +127,8 @@ public class ShipperCRUDController implements Serializable {
 		if (!Faces.isPostback() && !Faces.isValidationFailed() ) {
 			if (editId != null) {
 				try {
-					shipperDetail = northwindService.findOneShipper(editId);
-					if (shipperDetail != null) {
+					categoryDetail = northwindService.findOneCategory(editId);
+					if (categoryDetail != null) {
 						editMode = true;
 					} else {
 						Messages.addFlashGlobalError("{0} is not a valid id value", editId);
@@ -131,13 +145,14 @@ public class ShipperCRUDController implements Serializable {
 	}
 	
 	public String cancel() {
-		shipperDetail = null;
+		categoryDetail = null;
 		editMode = false;
 		return "list?faces-redirect=true";
 	}
 	
-	
-	public List<Shipper> getShippers() {
-		return shippers;
+	@Named
+	@Produces
+	public List<Category> getCategorys() {
+		return categorys;
 	}	
 }

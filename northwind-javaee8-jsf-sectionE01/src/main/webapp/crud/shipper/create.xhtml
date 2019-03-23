@@ -13,15 +13,26 @@
 	xmlns:b="http://bootsfaces.net/ui"
 	template="/WEB-INF/templates/northwind-jsf-template.xhtml">
 	
-	<ui:param name="title" value="Northwind Home Page" />
+	<ui:param name="title" value="New Shipper" />
 
 	<ui:define name="maincontent">
-		<h1>DMIT2015 - Enterprise Application Development</h1>
-		<h2>Northwind Traders Demo App</h2>
 		
+		<b:jumbotron>
+			<h1>New Shipper Details</h1>
+		</b:jumbotron>
 
+		<b:messages id="messages" />
 		
+		<b:form id="createForm">
 		
+			<ui:include src="/crud/shipper/detail.xhtml" />
+			
+			<b:commandButton value="Submit New"
+				look="primary"
+				iconAwesome="save"
+				action="#{shipperCRUDController.create()}"
+				update=":messages detailPanel" />
+		</b:form>
 		
 	</ui:define>
 

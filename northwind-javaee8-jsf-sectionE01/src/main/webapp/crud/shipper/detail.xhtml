@@ -11,18 +11,21 @@
 	xmlns:of="http://omnifaces.org/functions"
 	xmlns:p="http://primefaces.org/ui"  
 	xmlns:b="http://bootsfaces.net/ui"
-	template="/WEB-INF/templates/northwind-jsf-template.xhtml">
-	
-	<ui:param name="title" value="Northwind Home Page" />
-
-	<ui:define name="maincontent">
-		<h1>DMIT2015 - Enterprise Application Development</h1>
-		<h2>Northwind Traders Demo App</h2>
-		
-
-		
-		
-		
-	</ui:define>
+>
+	<p:outputPanel id="detailPanel">
+		<b:panel title="Shipper Details" 
+			collapsible="false"
+			rendered="#{shipperCRUDController.shipperDetail != null ? 'true' : 'false'}"> 
+			
+			<b:inputText id="companyName"
+				label="Company Name" 
+				value="#{shipperCRUDController.shipperDetail.companyName}"/>
+				
+			<b:inputText id="phone" 
+				label="Phone:" 
+				value="#{shipperCRUDController.shipperDetail.phone}"/>	
+				
+		</b:panel>
+	</p:outputPanel>
 
 </ui:composition>
