@@ -29,7 +29,7 @@ public class OrderQuerySingleResultController implements Serializable {
 	@Inject
 	private NorthwindService northwindService;
 	
-	public void doSearch() {
+	public void doFindSingleResult() {
 		try {
 			querySingleResult = northwindService.findOneOrder(queryIdValue);
 			if(querySingleResult != null) {
@@ -51,15 +51,17 @@ public class OrderQuerySingleResultController implements Serializable {
 	public double invoiceTotal() {
 		double total = 0;
 		if (querySingleResult != null) {
-//			for(OrderDetail od : querySingleResult.getOrderDetails()) {
-//				total += od.getQuantity() * od.getUnitPrice().doubleValue() * (1 - od.getDiscount());
-//				total += querySingleResult.getFreight().doubleValue();
-//			}
+			for(OrderDetail od : querySingleResult.getOrderDetails()) {
+				total += od.getQuantity() * od.getUnitPrice().doubleValue() * (1 - od.getDiscount());
+				total += + querySingleResult.getFreight().doubleValue();
+			}
 			
-			total = querySingleResult.getOrderDetails().stream().mapToDouble( 
-						od -> od.getQuantity() * od.getUnitPrice().doubleValue() * (1 - od.getDiscount()) 
-					).sum()
-					+ querySingleResult.getFreight().doubleValue();	
+//			total = querySingleResult.getOrderDetails().stream()
+//					.mapToDouble( 
+//		od -> od.getQuantity() * od.getUnitPrice().doubleValue() * (1 - od.getDiscount()) 
+//					)
+//					.sum()
+//					+ querySingleResult.getFreight().doubleValue();	
 		}
 		return total;
 	}

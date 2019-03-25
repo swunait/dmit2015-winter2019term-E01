@@ -8,6 +8,7 @@ import javax.inject.Inject;
 //import javax.transaction.Transactional;
 
 import northwind.entity.Category;
+import northwind.entity.Customer;
 import northwind.entity.Employee;
 import northwind.entity.Order;
 import northwind.entity.Shipper;
@@ -41,6 +42,24 @@ public class NorthwindService {
 
 	@Inject
 	private ShipperRepository shipperRepository;
+	
+	
+	public List<Order> findOrdersByCustomerID(String customerID) {
+		return orderRepository.findByCustomerID(customerID);
+	}
+
+	public List<Order> findOrdersByEmployeeID(int employeeID) {
+		return orderRepository.findByEmployeeID(employeeID);
+	}
+	
+
+	public List<Employee> findEmployeesWithSalesOrders() {
+		return orderRepository.findEmployeesWithSalesOrders();
+	}
+
+	public List<Customer> findCustomersWithOrders() {
+		return orderRepository.findCustomersWithOrders();
+	}
 	
 	public List<Employee> findAllEmployee() {
 		return employeeRepository.findAll();
