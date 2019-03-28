@@ -51,6 +51,12 @@
             	<b:navLink value="Find Order by Customer" href="#{request.contextPath}/report/findOrderByCustomer.xhtml"></b:navLink>
             	<b:navLink value="Find Order by Employee" href="#{request.contextPath}/report/findOrderByEmployee.xhtml"></b:navLink>
         	</b:dropMenu>
+        	
+        	<h:form>	
+	       		<h:commandLink value="Logout #{request.userPrincipal.name}" action="#{logout.submit()}" 
+	       			rendered="#{not empty request.userPrincipal}">
+	       		</h:commandLink>	        
+	        </h:form> 
 
         </b:navbarLinks>
         
