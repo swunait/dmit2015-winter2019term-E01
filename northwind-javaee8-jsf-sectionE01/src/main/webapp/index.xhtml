@@ -19,7 +19,18 @@
 		<h1>DMIT2015 - Enterprise Application Development</h1>
 		<h2>Northwind Traders Demo App</h2>
 		
-
+		<c:if test="#{not empty request.userPrincipal}">
+			<p>Logged-in as #{request.userPrincipal.name}</p>
+		</c:if>
+	
+		<c:if test="#{empty request.userPrincipal}">
+			<h:form>
+				<h:button value="Login" outcome="/security/login">
+					<f:param name="new" value="true" />
+				</h:button>
+			</h:form>
+		</c:if>
+		
 		
 		
 		
