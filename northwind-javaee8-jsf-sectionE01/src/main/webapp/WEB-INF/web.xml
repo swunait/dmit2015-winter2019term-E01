@@ -23,4 +23,171 @@
 	<welcome-file-list>
 		<welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
+	
+	<!-- BootsFaces Theme Usage -->
+	<context-param>
+		<param-name>BootsFaces_USETHEME</param-name>
+		<param-value>default</param-value>
+	</context-param>
+	<context-param>
+		<param-name>BootsFaces_THEME</param-name>
+		<param-value>#{theme.currentTheme}</param-value>
+	</context-param>
+	<!-- Activates the waitcursor and the double-click protection -->
+	<context-param>
+		<param-name>net.bootsfaces.blockUI</param-name>
+		<param-value>true</param-value>
+	</context-param>	
+	
+	<mime-mapping>
+		<extension>eot</extension>
+		<mime-type>application/vnd.ms-fontobject</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>otf</extension>
+		<mime-type>application/font-sfnt</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>ttf</extension>
+		<mime-type>application/font-sfnt</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>woff</extension>
+		<mime-type>application/font-sfnt</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>woff2</extension>
+		<mime-type>font/woff2</mime-type>
+	</mime-mapping>
+		
+	<!-- Error pages -->
+	<error-page>
+		<error-code>401</error-code>
+		<location>/errorpages/401.xhtml</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/errorpages/403.xhtml</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/errorpages/404.xhtml</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/errorpages/500.xhtml</location>
+	</error-page>
+	<error-page>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/WEB-INF/errorpages/expired.xhtml</location>
+	</error-page>
+	
+	<!--
+	When deploying on Wildfly, you must disable HTTP/2 support at it conflicts with Java EE 8 SSL
+	
+	1. Start the Wildfly server either from Eclipse or from a Terminal using the command $JBOSS_HOME/bin/standalone.sh
+	2. Open a Terminal session and type:
+	
+		$JBOSS_HOME/bin/jboss-cli.sh
+		connect
+		/subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=enable-http2,value=false)  
+		quit		
+	 -->
+<!-- 	<security-constraint> -->
+<!-- 		<web-resource-collection> -->
+<!-- 			<web-resource-name>Use HTTPS only</web-resource-name> -->
+<!-- 			<url-pattern>/*</url-pattern> -->
+<!-- 		</web-resource-collection> -->
+<!-- 		<user-data-constraint> -->
+<!-- 			<transport-guarantee>CONFIDENTIAL</transport-guarantee> -->
+<!-- 		</user-data-constraint> -->
+<!-- 	</security-constraint> -->
+	
+<!-- 	<security-constraint> -->
+<!-- 		<web-resource-collection> -->
+<!-- 			<web-resource-name>anyAuthenticatedUser</web-resource-name> -->
+<!-- 			<url-pattern>/security/changePassword.xhtml</url-pattern> -->
+<!-- 			<url-pattern>/crud/category/list.xhtml</url-pattern> -->
+<!-- 		</web-resource-collection> -->
+<!-- 		<auth-constraint> -->
+<!-- 			<role-name>**</role-name> -->
+<!-- 		</auth-constraint> -->
+<!-- 	</security-constraint> -->
+
+<!-- 	<security-constraint> -->
+<!-- 		<web-resource-collection> -->
+<!-- 			<web-resource-name>anyRoleDefinedInWebXml</web-resource-name> -->
+<!-- 			<url-pattern>/crud/shipper/list.xhtml</url-pattern>			 -->
+<!-- 		</web-resource-collection> -->
+<!-- 		<auth-constraint> -->
+<!-- 			<role-name>*</role-name> -->
+<!-- 		</auth-constraint> -->
+<!-- 	</security-constraint> -->
+	
+<!-- 	<security-constraint> -->
+<!-- 		<web-resource-collection> -->
+<!-- 			<web-resource-name>Software Developer Resources</web-resource-name> -->
+<!-- 			<url-pattern>/security/manageLoginUser.xhtml</url-pattern>			 -->
+<!-- 			<url-pattern>/security/manageLoginGroup.xhtml</url-pattern>			 -->
+<!-- 		</web-resource-collection> -->
+<!-- 		<auth-constraint> -->
+<!-- 			<role-name>Software Developer</role-name> -->
+<!-- 		</auth-constraint> -->
+<!-- 	</security-constraint> -->
+	
+<!-- 	<security-constraint> -->
+<!-- 		<web-resource-collection> -->
+<!-- 			<web-resource-name>Management Resources</web-resource-name> -->
+<!-- 			<url-pattern>/report/viewProductLineRevenueReport.xhtml</url-pattern> -->
+<!-- 			<url-pattern>/crud/category/create.xhtml</url-pattern>			 -->
+<!-- 			<url-pattern>/crud/category/edit.xhtml</url-pattern>			 -->
+<!-- 			<url-pattern>/crud/shipper/create.xhtml</url-pattern>			 -->
+<!-- 			<url-pattern>/crud/shipper/edit.xhtml</url-pattern>			 -->
+<!-- 		</web-resource-collection> -->
+<!-- 		<auth-constraint> -->
+<!-- 			<role-name>NorthwindManagement</role-name> -->
+<!-- 			<role-name>NorthwindEmployee</role-name> -->
+<!-- 			<role-name>PROG_DMIT</role-name> -->
+<!-- 		</auth-constraint> -->
+<!-- 	</security-constraint> -->
+	
+<!-- 	<security-constraint> -->
+<!-- 		<web-resource-collection> -->
+<!-- 			<web-resource-name>Report Resources</web-resource-name> -->
+<!-- 			<url-pattern>/report/*</url-pattern> -->
+<!-- 		</web-resource-collection> -->
+<!-- 		<auth-constraint> -->
+<!-- 			<role-name>NorthwindManagement</role-name> -->
+<!-- 			<role-name>DMIT2015Instructor</role-name> -->
+<!-- 		</auth-constraint> -->
+<!-- 	</security-constraint> -->
+	
+	<security-role>
+		<role-name>DMIT2015Instructor</role-name>
+	</security-role>
+
+	<security-role>
+		<role-name>DMIT2015Student</role-name>
+	</security-role>
+	
+	<security-role>
+		<role-name>PROG_DMIT</role-name>
+	</security-role>
+
+	<security-role>
+		<role-name>NorthwindManager</role-name>
+	</security-role>
+
+	<security-role>
+		<role-name>NorthwindEmployee</role-name>
+	</security-role>
+
+	<security-role>
+		<role-name>NorthwindCustomer</role-name>
+	</security-role>
+
+	<security-role>
+		<role-name>Software Developer</role-name>
+	</security-role>
+		
 </web-app>
