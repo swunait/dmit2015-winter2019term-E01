@@ -93,74 +93,74 @@
 		/subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=enable-http2,value=false)  
 		quit		
 	 -->
-<!-- 	<security-constraint> -->
-<!-- 		<web-resource-collection> -->
-<!-- 			<web-resource-name>Use HTTPS only</web-resource-name> -->
-<!-- 			<url-pattern>/*</url-pattern> -->
-<!-- 		</web-resource-collection> -->
-<!-- 		<user-data-constraint> -->
-<!-- 			<transport-guarantee>CONFIDENTIAL</transport-guarantee> -->
-<!-- 		</user-data-constraint> -->
-<!-- 	</security-constraint> -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Use HTTPS only</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
 	
-<!-- 	<security-constraint> -->
-<!-- 		<web-resource-collection> -->
-<!-- 			<web-resource-name>anyAuthenticatedUser</web-resource-name> -->
-<!-- 			<url-pattern>/security/changePassword.xhtml</url-pattern> -->
-<!-- 			<url-pattern>/crud/category/list.xhtml</url-pattern> -->
-<!-- 		</web-resource-collection> -->
-<!-- 		<auth-constraint> -->
-<!-- 			<role-name>**</role-name> -->
-<!-- 		</auth-constraint> -->
-<!-- 	</security-constraint> -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>anyAuthenticatedUser</web-resource-name>
+			<url-pattern>/security/changePassword.xhtml</url-pattern>
+			<url-pattern>/crud/category/list.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>**</role-name>
+		</auth-constraint>
+	</security-constraint>
 
-<!-- 	<security-constraint> -->
-<!-- 		<web-resource-collection> -->
-<!-- 			<web-resource-name>anyRoleDefinedInWebXml</web-resource-name> -->
-<!-- 			<url-pattern>/crud/shipper/list.xhtml</url-pattern>			 -->
-<!-- 		</web-resource-collection> -->
-<!-- 		<auth-constraint> -->
-<!-- 			<role-name>*</role-name> -->
-<!-- 		</auth-constraint> -->
-<!-- 	</security-constraint> -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>anyRoleDefinedInWebXml</web-resource-name>
+			<url-pattern>/crud/shipper/list.xhtml</url-pattern>			
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
 	
-<!-- 	<security-constraint> -->
-<!-- 		<web-resource-collection> -->
-<!-- 			<web-resource-name>Software Developer Resources</web-resource-name> -->
-<!-- 			<url-pattern>/security/manageLoginUser.xhtml</url-pattern>			 -->
-<!-- 			<url-pattern>/security/manageLoginGroup.xhtml</url-pattern>			 -->
-<!-- 		</web-resource-collection> -->
-<!-- 		<auth-constraint> -->
-<!-- 			<role-name>Software Developer</role-name> -->
-<!-- 		</auth-constraint> -->
-<!-- 	</security-constraint> -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Software Developer Resources</web-resource-name>
+			<url-pattern>/security/manageLoginUser.xhtml</url-pattern>			
+			<url-pattern>/security/manageLoginGroup.xhtml</url-pattern>			
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>Software Developer</role-name>
+		</auth-constraint>
+	</security-constraint>
 	
-<!-- 	<security-constraint> -->
-<!-- 		<web-resource-collection> -->
-<!-- 			<web-resource-name>Management Resources</web-resource-name> -->
-<!-- 			<url-pattern>/report/viewProductLineRevenueReport.xhtml</url-pattern> -->
-<!-- 			<url-pattern>/crud/category/create.xhtml</url-pattern>			 -->
-<!-- 			<url-pattern>/crud/category/edit.xhtml</url-pattern>			 -->
-<!-- 			<url-pattern>/crud/shipper/create.xhtml</url-pattern>			 -->
-<!-- 			<url-pattern>/crud/shipper/edit.xhtml</url-pattern>			 -->
-<!-- 		</web-resource-collection> -->
-<!-- 		<auth-constraint> -->
-<!-- 			<role-name>NorthwindManagement</role-name> -->
-<!-- 			<role-name>NorthwindEmployee</role-name> -->
-<!-- 			<role-name>PROG_DMIT</role-name> -->
-<!-- 		</auth-constraint> -->
-<!-- 	</security-constraint> -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Management Resources</web-resource-name>
+			<url-pattern>/report/viewCategoryRevenueReport.xhtml</url-pattern>
+			<url-pattern>/crud/category/create.xhtml</url-pattern>			
+			<url-pattern>/crud/category/edit.xhtml</url-pattern>			
+			<url-pattern>/crud/shipper/create.xhtml</url-pattern>			
+			<url-pattern>/crud/shipper/edit.xhtml</url-pattern>			
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>NorthwindManagement</role-name>
+			<role-name>NorthwindEmployee</role-name>
+			<role-name>PROG_DMIT</role-name>
+		</auth-constraint>
+	</security-constraint>
 	
-<!-- 	<security-constraint> -->
-<!-- 		<web-resource-collection> -->
-<!-- 			<web-resource-name>Report Resources</web-resource-name> -->
-<!-- 			<url-pattern>/report/*</url-pattern> -->
-<!-- 		</web-resource-collection> -->
-<!-- 		<auth-constraint> -->
-<!-- 			<role-name>NorthwindManagement</role-name> -->
-<!-- 			<role-name>DMIT2015Instructor</role-name> -->
-<!-- 		</auth-constraint> -->
-<!-- 	</security-constraint> -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Report Resources</web-resource-name>
+			<url-pattern>/report/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>NorthwindManagement</role-name>
+			<role-name>DMIT2015Instructor</role-name>
+		</auth-constraint>
+	</security-constraint>
 	
 	<security-role>
 		<role-name>DMIT2015Instructor</role-name>

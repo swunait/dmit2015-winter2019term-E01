@@ -2,11 +2,17 @@ package security.config;
 
 import javax.annotation.sql.DataSourceDefinition;
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.annotation.FacesConfig;
 import javax.security.enterprise.authentication.mechanism.http.BasicAuthenticationMechanismDefinition;
+import javax.security.enterprise.authentication.mechanism.http.CustomFormAuthenticationMechanismDefinition;
+import javax.security.enterprise.authentication.mechanism.http.LoginToContinue;
 import javax.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
 
-@BasicAuthenticationMechanismDefinition(
-	realmName="jaspitest"
+@CustomFormAuthenticationMechanismDefinition(
+	loginToContinue = @LoginToContinue(
+		loginPage="/login.xhtml", 
+		useForwardToLogin = false,
+		errorPage="")
 )
 
 @DatabaseIdentityStoreDefinition(
@@ -24,7 +30,7 @@ import javax.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
 	password="Password2015"
 )
 
-@ApplicationScoped
+@FacesConfig @ApplicationScoped
 public class ApplicationSecurityConfig {
 
 }

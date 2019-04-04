@@ -54,12 +54,22 @@ import org.glassfish.soteria.identitystores.annotation.EmbeddedIdentityStoreDefi
 //	priority = 5
 //)
 
-//@DatabaseIdentityStoreDefinition(
-//	dataSourceLookup="java:app/datasources/northwind-javaee8-jsf-sectionE01/NorthwindDS",
-//	callerQuery="SELECT password FROM LoginUser WHERE username = ?",
-//	groupsQuery="SELECT g.groupname FROM LoginUser u, LoginUserGroup ug, LoginGroup g WHERE u.username = ? AND u.id = ug.userid AND ug.groupid = g.id",
-//	priority = 10
+//@LdapIdentityStoreDefinition(
+//	url = "ldap://192.168.73.136:389",
+//	callerSearchBase = "dc=classicmodelcars,dc=com",
+//	callerNameAttribute = "SamAccountName",	// SamAccountName or UserPrincipalName
+//	groupSearchBase = "dc=classicmodelcars,dc=com",
+//	bindDn = "cn=DMIT2015 Student,ou=Software Developer,ou=JobRole,dc=classicmodelcars,dc=com",
+//	bindDnPassword = "Password2015",
+//	priority = 5
 //)
+
+@DatabaseIdentityStoreDefinition(
+	dataSourceLookup="java:app/datasources/northwind-javaee8-jsf-sectionE01/NorthwindDS",
+	callerQuery="SELECT password FROM LoginUser WHERE username = ?",
+	groupsQuery="SELECT g.groupname FROM LoginUser u, LoginUserGroup ug, LoginGroup g WHERE u.username = ? AND u.id = ug.userid AND ug.groupid = g.id",
+	priority = 10
+)
 
 @FacesConfig @ApplicationScoped
 public class ApplicationSecurityConfig {

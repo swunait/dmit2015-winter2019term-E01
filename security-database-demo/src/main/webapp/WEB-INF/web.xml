@@ -24,5 +24,45 @@
 		<welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
 	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Customer Resources</web-resource-name>
+			<url-pattern>/protected/playlist.html</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>VIEW_CUSTOMER_PAGES</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Employee Resources</web-resource-name>
+			<url-pattern>/protected/customers.html</url-pattern>
+			<url-pattern>/protected/employees.html</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>VIEW_EMPLOYEE_PAGES</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Customer and Employee Resources</web-resource-name>
+			<url-pattern>/protected/invoices.html</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>VIEW_CUSTOMER_PAGES</role-name>
+			<role-name>VIEW_EMPLOYEE_PAGES</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<security-role>
+		<role-name>VIEW_CUSTOMER_PAGES</role-name>
+	</security-role>
+	
+		<security-role>
+		<role-name>VIEW_EMPLOYEE_PAGES</role-name>
+	</security-role>
+	
 	
 </web-app>
