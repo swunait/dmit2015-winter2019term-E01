@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJBAccessException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,36 +18,41 @@ import northwind.service.NorthwindService;
 
 @Named
 @ViewScoped
-public class CategorySalesRevenueReportController implements Serializable {
+public class CategorySalesReportController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
 	private NorthwindService northwindService;
 	
-	@Getter private List<Integer> salesYears;
 	@Getter @Setter private Integer selectedSalesYear;
+	@Getter private List<Integer> orderYears;
 	
-	@Getter private List<CategorySalesRevenue> categorySalesRevenue;
+	@Getter private List<CategorySalesRevenue> categorySalesRevenues;
 	
 	@PostConstruct
 	void init() {
 		try {
-			salesYears = northwindService.findYearsWithOrders();
-			categorySalesRevenue = northwindService.findCategorySalesRevenues();
+			categorySalesRevenues = northwindService.findCategorySalesRevenues();
+			orderYears = northwindService.findYearsWithOrders();
+		} catch(EJBAccessException e) {
+			Messages.addGlobalWarn("You do not have permission this resource.");
 		} catch(Exception e) {
-			Messages.addGlobalError("Error retrieving category sales report data");
+			Messages.addGlobalError("Error retreiving category sales report");
 		}
 	}
 	
 	public void generateReport() {
 		try {
 			if (selectedSalesYear == null) {
-				categorySalesRevenue = northwindService.findCategorySalesRevenues();
+				categorySalesRevenues = northwindService.findCategorySalesRevenues();		
 			} else {
-				categorySalesRevenue = northwindService.findCategorySalesRevenuesByYear(selectedSalesYear);
+				categorySalesRevenues = northwindService.findCategorySalesRevenuesByYear(
+						selectedSalesYear);
 			}
+		} catch(EJBAccessException e) {
+			Messages.addGlobalWarn("You do not have permission this resource.");
 		} catch(Exception e) {
-			Messages.addGlobalError("Error retrieving category sales report");
+			Messages.addGlobalError("Error retreiving category sales report");
 		}
 	}
 
