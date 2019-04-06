@@ -26,6 +26,17 @@
 	
 	<security-constraint>
 		<web-resource-collection>
+			<web-resource-name>Admin Resources</web-resource-name>
+			<url-pattern>/manageLoginUser.xhtml</url-pattern>
+			<url-pattern>/manageLoginGroup.xhtml</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>VIEW_ADMIN_PAGES</role-name>
+		</auth-constraint>
+	</security-constraint>
+	
+	<security-constraint>
+		<web-resource-collection>
 			<web-resource-name>Customer Resources</web-resource-name>
 			<url-pattern>/protected/playlist.html</url-pattern>
 		</web-resource-collection>

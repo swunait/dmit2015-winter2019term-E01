@@ -8,6 +8,13 @@ import javax.security.enterprise.authentication.mechanism.http.CustomFormAuthent
 import javax.security.enterprise.authentication.mechanism.http.LoginToContinue;
 import javax.security.enterprise.identitystore.DatabaseIdentityStoreDefinition;
 
+import org.glassfish.soteria.identitystores.annotation.Credentials;
+import org.glassfish.soteria.identitystores.annotation.EmbeddedIdentityStoreDefinition;
+
+@EmbeddedIdentityStoreDefinition({
+	@Credentials(callerName="admin2015", password="adminPassword2015",groups="VIEW_ADMIN_PAGES")
+})
+
 @CustomFormAuthenticationMechanismDefinition(
 	loginToContinue = @LoginToContinue(
 		loginPage="/login.xhtml", 
