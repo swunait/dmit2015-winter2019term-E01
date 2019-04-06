@@ -18,41 +18,40 @@ import northwind.service.NorthwindService;
 
 @Named
 @ViewScoped
-public class CategorySalesReportController implements Serializable {
+public class CategorySalesRevenueReportController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
 	private NorthwindService northwindService;
 	
+	@Getter private List<Integer> salesYears;
 	@Getter @Setter private Integer selectedSalesYear;
-	@Getter private List<Integer> orderYears;
 	
-	@Getter private List<CategorySalesRevenue> categorySalesRevenues;
+	@Getter private List<CategorySalesRevenue> categorySalesRevenue;
 	
 	@PostConstruct
 	void init() {
 		try {
-			categorySalesRevenues = northwindService.findCategorySalesRevenues();
-			orderYears = northwindService.findYearsWithOrders();
+			salesYears = northwindService.findYearsWithOrders();
+			categorySalesRevenue = northwindService.findCategorySalesRevenues();
 		} catch(EJBAccessException e) {
 			Messages.addGlobalWarn("You do not have permission this resource.");
 		} catch(Exception e) {
-			Messages.addGlobalError("Error retreiving category sales report");
+			Messages.addGlobalError("Error retrieving category sales report");
 		}
 	}
 	
 	public void generateReport() {
 		try {
 			if (selectedSalesYear == null) {
-				categorySalesRevenues = northwindService.findCategorySalesRevenues();		
+				categorySalesRevenue = northwindService.findCategorySalesRevenues();
 			} else {
-				categorySalesRevenues = northwindService.findCategorySalesRevenuesByYear(
-						selectedSalesYear);
+				categorySalesRevenue = northwindService.findCategorySalesRevenuesByYear(selectedSalesYear);
 			}
 		} catch(EJBAccessException e) {
 			Messages.addGlobalWarn("You do not have permission this resource.");
 		} catch(Exception e) {
-			Messages.addGlobalError("Error retreiving category sales report");
+			Messages.addGlobalError("Error retrieving category sales report");
 		}
 	}
 
