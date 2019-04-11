@@ -23,6 +23,7 @@ import northwind.repository.ShipperRepository;
 @Stateless	
 //@ApplicationScoped
 //@Transactional
+//@Interceptors({SecurityInterceptor.class})
 public class NorthwindService {
 	
 	@Inject

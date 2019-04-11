@@ -9,6 +9,12 @@ import javax.enterprise.context.ApplicationScoped;
 	url="jdbc:mysql://localhost:3306/northwind?serverTimezone=UTC",
 	user="dmit2015",
 	password="Password2015")
+//@DataSourceDefinition(
+//		name="java:app/datasources/ProjectDS",
+//		className="com.microsoft.sqlserver.jdbc.SQLServerDataSource",
+//		url="jdbc:sqlserver://localhost;databaseName=DMIT2015ProjectDB",
+//		user="dmit2015",
+//		password="Password2015")
 @ApplicationScoped
 public class DataSourceDefinitionConfig {
 
